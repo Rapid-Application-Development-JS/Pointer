@@ -1,0 +1,33 @@
+{
+  "name": "Gesture",
+  "version": "1.0.0",
+  "description": "**Provide point events for DOM elements**",
+  "main": "gesture.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rapid-Application-Development-JS/Pointer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Rapid-Application-Development-JS/Pointer/issues"
+  },
+
+  "keywords": [
+    "point",
+    "fling",
+    "event listener",
+    "touch event"
+  ],
+  "scripts": {
+    "test": "echo \"no test required\" && exit 1"
+  },
+  "author": "Yuriy Luchaninov <y.luchaninov@mobidev.biz> (http://mobidev.biz/)",
+  "contributors": [
+    {
+      "name": "Yuriy Luchaninov",
+      "email": "y.luchaninov@mobidev.biz"
+    }
+  ],
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/Rapid-Application-Development-JS/Pointer",
+  "license": "MIT"
+}
