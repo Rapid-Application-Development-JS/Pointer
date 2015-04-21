@@ -3,11 +3,12 @@
     var $console = document.querySelector('#console');
 
     var pointer = new PointerTracker($div);
-console.log(pointer);
+
     for(var eventName in pointer.EVENTS){
         console.log(pointer.EVENTS[eventName]);
         $div.addEventListener(pointer.EVENTS[eventName], function (event) {
             $console.innerHTML = getTime()+': '+event.type+ '\n'+ $console.innerHTML;
+            console.log("index: "+event.type);
         }, false);
     }
 
@@ -18,6 +19,6 @@ console.log(pointer);
             + ((currentdate.getSeconds()<10) ? "0"+currentdate.getSeconds() : currentdate.getSeconds());
     }
 
-    function onChange(){
+    function onChange() {
         pointer.setDoubleGuardState(document.getElementById('checkbox').checked);
     }
