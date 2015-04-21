@@ -1,5 +1,5 @@
 # Pointer
-Module providesW3C Pointer Events for handling user input. Pointer events are modeled after traditional mouse events, except they use the abstract concept of a pointer to apply across all user input modalities, including mouse, touch, and pen. Use pointer events to create a seamless user experience across user input methods by writing to a single set of events that work across hardware capabilities.
+Module provides W3C Pointer Events for handling user input. Pointer events are modeled after traditional mouse events, except they use the abstract concept of a pointer to apply across all user input modalities, including mouse, touch, and pen. Use pointer events to create a seamless user experience across user input methods by writing to a single set of events that work across hardware capabilities.
 ##Initialization
 ```javascript
 var $div = document.querySelector('#pointer');
