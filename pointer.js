@@ -49,12 +49,14 @@
         this._el = element;
         this.isDown = false;
         this.chancelId = false;
+
         this.setMoveHoverState = function(moveHoverState){
             _moveHoverState = moveHoverState;
         };
         this.getMoveHoverState=function(){
             return _moveHoverState;
         };
+
         if (!window.navigator.msPointerEnabled) {
             if (!this.isTouched) {
                 this._el.addEventListener(STRINGS.mousedown, this, false);

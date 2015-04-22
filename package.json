@@ -1,8 +1,8 @@
 {
-  "name": "Gesture",
+  "name": "Pointer",
   "version": "1.0.0",
   "description": "**Provide point events for DOM elements**",
-  "main": "gesture.js",
+  "main": "pointer.min.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Rapid-Application-Development-JS/Pointer.git"
@@ -18,7 +18,8 @@
     "touch event"
   ],
   "scripts": {
-    "test": "echo \"no test required\" && exit 1"
+    "test": "echo \"no test required\" && exit 1",
+    "build": "uglifyjs pointer.js --compress --mangle --screw-ie8 --comments --lint --source-map pointer.min.js.map --output pointer.min.js"
   },
   "author": "Yuriy Luchaninov <y.luchaninov@mobidev.biz> (http://mobidev.biz/)",
   "contributors": [
@@ -27,6 +28,9 @@
       "email": "y.luchaninov@mobidev.biz"
     }
   ],
+  "devDependencies": {
+    "uglifyjs": "*"
+  },
   "readmeFilename": "README.md",
   "homepage": "https://github.com/Rapid-Application-Development-JS/Pointer",
   "license": "MIT"

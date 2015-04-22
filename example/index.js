@@ -8,10 +8,8 @@
         console.log(pointer.EVENTS[eventName]);
         $div.addEventListener(pointer.EVENTS[eventName], function (event) {
             $console.innerHTML = getTime()+': '+event.type+ '\n'+ $console.innerHTML;
-            console.log("index: "+event.type);
         }, false);
     }
-
     function getTime() {
         var currentdate = new Date();
         return ((currentdate.getHours()<10) ? "0"+currentdate.getHours() : currentdate.getHours()) + ":"
@@ -20,5 +18,5 @@
     }
 
     function onChange() {
-        pointer.setDoubleGuardState(document.getElementById('checkbox').checked);
+        pointer.setMoveHoverState(document.getElementById('checkbox').checked);
     }
