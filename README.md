@@ -3,6 +3,10 @@ Module provides W3C Pointer Events for handling user input. Pointer events are m
 
 **Note:** Pointer work only with one touch. Multitouch mode does not supported yet. If user make multitouch gesture - first point will be processed, others will be skipped.
 
+
+[Example](http://rapid-application-development-js.github.io/Pointer/)
+
+---
 ##Initialization
 ```javascript
 var $div = document.querySelector('#pointer');
