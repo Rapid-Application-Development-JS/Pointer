@@ -11,9 +11,11 @@ var pointer = new PointerTracker($div);
 - pointermove
 - pointerover
 - pointerenter
-- pointerleave
 - pointerout
+- pointerleave
 - pointercancel
+
+**Warning:** Module does not support `gotpointercapture` and `lostpointercapture` events
 
 -- 
 ###pointerup
@@ -80,7 +82,7 @@ Cancelable:  Yes
 #####Remarks
 `pointermove` has two modes:
 
-1. Event broadcasted if pointer was pressed and  pointer changes coordinates.
+1. Event broadcasted if pointer was pressed and  pointer changes coordinates (Sat as defaylt).
 2. Event broadcasted when pointer changes coordinates regardless of pointer down state. **It mode works correctly only for devices which support hover**
 
 First mode enabled as default. Call function `setMoveHoverState` with parameter `true` for switch to second mode
@@ -91,3 +93,91 @@ Call function `setMoveHoverState` with parameter `false` for return to first mod
 ```javascript
 pointer.setMoveHoverState(false);
 ```
+--
+###pointerover
+Dispatched when a pointing device is moved into the hit test boundaries of an element. Also dispatched prior to a pointerdown event for devices that do not support hover.
+#####Syntax
+```javascript
+$div.addEventListener("pointerover", callback, useCapture);
+```
+or
+```javascript
+$div.addEventListener(pointer.EVENTS.over, callback, useCapture);
+```
+#####Event information
+Synchronous: Yes
+
+Bubbles:	   Yes 
+
+Cancelable:  Yes 
+
+--
+###pointerenter
+Dispatched when a pointing device is moved into the hit test boundaries of an element or one of its descendants, including as a result of a `pointerdown` event from a device that does not support hover. This event type is similar to `pointerover`, but differs in that it does not bubble and cancelable.
+```javascript
+$div.addEventListener("pointerenter", callback, useCapture);
+```
+or
+```javascript
+$div.addEventListener(pointer.EVENTS.enter, callback, useCapture);
+```
+#####Event information
+Synchronous: Yes
+
+Bubbles:	   No 
+
+Cancelable:  No 
+
+--
+###pointerout
+Dispatched when any of the following occurs:
+* A pointing device is moved out of the hit test boundaries of an element
+* After firing the `pointerup` event for a device that does not support hover
+* After firing the `pointercancel` event
+```javascript
+$div.addEventListener("pointerout", callback, useCapture);
+```
+or
+```javascript
+$div.addEventListener(pointer.EVENTS.out, callback, useCapture);
+```
+#####Event information
+Synchronous: Yes
+
+Bubbles:	   Yes 
+
+Cancelable:  Yes
+
+--
+###pointerleave
+Dispatched when a pointing device is moved outside of the hit test boundaries of an element or one of its descendants, including as a result of a `pointerdown` event from a device that does not support hover. This event type is similar to `pointerout`, but differs in that it does not bubble and cancelable.
+```javascript
+$div.addEventListener("pointerleave", callback, useCapture);
+```
+or
+```javascript
+$div.addEventListener(pointer.EVENTS.leave, callback, useCapture);
+```
+#####Event information
+Synchronous: Yes
+
+Bubbles:	   No 
+
+Cancelable:  No 
+
+--
+###pointercancel 
+Dispatched when either (1) the system has determined that a pointer is unlikely to continue to produce events (for example, due to a hardware event), or (2) after having fired the pointerdown event, the pointer is subsequently used to manipulate the page viewport (for example, panning or zooming).
+```javascript
+$div.addEventListener("pointercancel", callback, useCapture);
+```
+or
+```javascript
+$div.addEventListener(pointer.EVENTS.cancel, callback, useCapture);
+```
+#####Event information
+Synchronous: Yes
+
+Bubbles:	   Yes 
+
+Cancelable:  No
