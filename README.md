@@ -82,10 +82,10 @@ Cancelable:  Yes
 #####Remarks
 `pointermove` has two modes:
 
-1. Event broadcasted if pointer was pressed and  pointer changes coordinates (Sat as defaylt).
+1. Event broadcasted if pointer was pressed and  pointer changes coordinates (Sat as default).
 2. Event broadcasted when pointer changes coordinates regardless of pointer down state. **It mode works correctly only for devices which support hover**
 
-First mode enabled as default. Call function `setMoveHoverState` with parameter `true` for switch to second mode
+You should call function `setMoveHoverState` with parameter `true` for switch to second mode
 ```javascript
 pointer.setMoveHoverState(true);
 ```
