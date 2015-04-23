@@ -1,13 +1,13 @@
-
     var $div = document.querySelector('#pointer');
     var $console = document.querySelector('#console');
-
     var pointer = new PointerTracker($div);
 
     for(var eventName in pointer.EVENTS){
         console.log(pointer.EVENTS[eventName]);
         $div.addEventListener(pointer.EVENTS[eventName], function (event) {
-            $console.innerHTML = getTime()+': '+event.type+ '\n'+ $console.innerHTML;
+            var $eventElement = document.createElement('div');
+            $eventElement.innerHTML = getTime()+': ' + event.type;
+            $console.insertBefore($eventElement, $console.firstChild);
         }, false);
     }
     function getTime() {
