@@ -1,5 +1,5 @@
 {
-  "name": "Pointer",
+  "name": "rad-pointer",
   "version": "1.0.0",
   "description": "**Provide point events for DOM elements**",
   "main": "pointer.min.js",
