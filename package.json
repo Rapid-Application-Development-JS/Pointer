@@ -18,7 +18,6 @@
     }
   ],
   "dependencies": {
-    "radjs-pointer": "^1.*"
   },
   "description": "Provide point events for DOM elements",
   "devDependencies": {
