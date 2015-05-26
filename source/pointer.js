@@ -44,6 +44,7 @@
   }
   function PointerTracker(element) {
     var _moveHoverState = false;
+    this.version = "1.0.0";
     this._el = element;
     this.isDown = false;
     this.chancelId = false;
@@ -179,7 +180,6 @@
         case STRINGS.touchend:
         case STRINGS.pointerUp:
         case STRINGS.touchcancel:
-        case STRINGS.pointerCancel:
         case STRINGS.mouseup:
           if (this.isDown) {
             this.isDown = !this._fireEvent(this.EVENTS.up, e);
