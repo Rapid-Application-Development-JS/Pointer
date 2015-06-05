@@ -5,7 +5,7 @@ for (var eventName in pointer.EVENTS) {
 	console.log(pointer.EVENTS[eventName]);
 	$div.addEventListener(pointer.EVENTS[eventName], function (event) {
 		var $eventElement = document.createElement('div');
-		$eventElement.innerHTML = getTime() + ': ' + event.type;
+		$eventElement.innerHTML = getTime() + '; pointerId: ' + event.pointerId+ '; type: '+ event.type+ '; x:y '+event.x+':'+event.y;
 		$console.insertBefore($eventElement, $console.firstChild);
 	}, false);
 }
