@@ -1,37 +1,57 @@
 {
-  "name": "Pointer",
-  "version": "1.0.0",
-  "description": "**Provide point events for DOM elements**",
-  "main": "pointer.min.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Rapid-Application-Development-JS/Pointer.git"
-  },
+  "author": "Yuriy Luchaninov <y.luchaninov@mobidev.biz> (http://mobidev.biz/)",
   "bugs": {
     "url": "https://github.com/Rapid-Application-Development-JS/Pointer/issues"
   },
-
+  "contributors": [
+    {
+      "email": "a.trofimenko@mobidev.biz",
+      "name": "Anton Trofimenko"
+    },
+    {
+      "email": "r.prokofeyv@mobidev.biz",
+      "name": "Roman Prokofeyv"
+    },
+    {
+      "email": "y.luchaninov@mobidev.biz",
+      "name": "Yuriy Luchaninov"
+    }
+  ],
+  "dependencies": {
+  },
+  "description": "Provide point events for DOM elements",
+  "devDependencies": {
+    "uglifyjs": "*"
+  },
+  "directories": {
+    "example": "example",
+    "lib": "source"
+  },
+  "homepage": "https://github.com/Rapid-Application-Development-JS/Pointer",
   "keywords": [
     "point",
     "fling",
     "event listener",
     "touch event"
   ],
-  "scripts": {
-    "test": "echo \"no test required\" && exit 1",
-    "build": "uglifyjs pointer.js --compress --mangle --screw-ie8 --comments --lint --source-map pointer.min.js.map --output pointer.min.js"
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/Rapid-Application-Development-JS/Pointer/blob/master/LICENSE.md"
   },
-  "author": "Yuriy Luchaninov <y.luchaninov@mobidev.biz> (http://mobidev.biz/)",
-  "contributors": [
-    {
-      "name": "Yuriy Luchaninov",
-      "email": "y.luchaninov@mobidev.biz"
-    }
+  "main": [
+    "release/pointer.min.js",
+    "release/pointer.min.js.map"
   ],
-  "devDependencies": {
-    "uglifyjs": "*"
-  },
+  "name": "radjs-pointer",
+  "private": false,
   "readmeFilename": "README.md",
-  "homepage": "https://github.com/Rapid-Application-Development-JS/Pointer",
-  "license": "MIT"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rapid-Application-Development-JS/Pointer.git"
+  },
+  "scripts": {
+    "build-js": "uglifyjs source/pointer.js --compress --mangle --screw-ie8 --comments --lint --source-map release/pointer.min.js.map --output release/pointer.min.js",
+    "test": "echo \"no test required\" && exit 1"
+  },
+  "version": "1.0.0"
 }

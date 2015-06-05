@@ -1,17 +1,20 @@
 # Pointer
-Module provides W3C Pointer Events for handling user input. Pointer events are modeled after traditional mouse events, except they use the abstract concept of a pointer to apply across all user input modalities, including mouse, touch, and pen. Use pointer events to create a seamless user experience across user input methods by writing to a single set of events that work across hardware capabilities.
+The module provides W3C Pointer Events for handling user input. Pointer events are modeled after traditional mouse events, except for their use of the abstract concept of a pointer to apply across all user input modalities, including mouse, touch, and stylus pen. Use pointer events to create seamless user experience across user input methods by writing to a single set of events that work across hardware capabilities.
 
-**Note:** Pointer work only with one touch. Multitouch mode does not supported yet. If user make multitouch gesture - first point will be processed, others will be skipped.
+**Note:** Pointer works only with one touch. The multitouch mode is not supported yet. If a user makes a multitouch gesture - the first point will be processed, while the others will be skipped.
 
 
 [Example](http://rapid-application-development-js.github.io/Pointer/)
 
 ---
+
 ##Initialization
+
 ```javascript
 var $div = document.querySelector('#pointer');
 var pointer = new PointerTracker($div);
 ```
+
 ##Supported Events
 - pointerup
 - pointerdown
@@ -22,20 +25,23 @@ var pointer = new PointerTracker($div);
 - pointerleave
 - pointercancel
 
-**Warning:** Module does not support `gotpointercapture` and `lostpointercapture` events
+**Warning:** The module does not support `gotpointercapture` and `lostpointercapture` events.
 
 -- 
 ###pointerup
 
 Dispatched when a pointer leaves the state of having a non-zero value for the buttons property.
 #####Syntax
+
 ```javascript
 $div.addEventListener("pointerup", callback, useCapture);
 ```
 or
+
 ```javascript
 $div.addEventListener(pointer.EVENTS.up, callback, useCapture);
 ```
+
 #####Event information
 
 Synchronous: Yes
@@ -43,8 +49,9 @@ Synchronous: Yes
 Bubbles:	   Yes 
 
 Cancelable:  Yes 
+
 #####Remarks
-For mouse, this is when the device transitions from at least one button depressed to no buttons depressed. For touch, this is when physical contact is removed from the digitizer. For pen, this is when the pen is removed from physical contact with the digitizer.
+For mouse, this is when the device transitions from at least one button pressed to no buttons pressed. For touch, this is when physical contact is removed from the digitizer. For pen, this is when the pen is removed from physical contact with the digitizer.
 
 For input devices that do not support hover, a pointerout event is also fired immediately after the pointerup event is fired.
 
@@ -56,6 +63,7 @@ Dispatched when a pointer enters the state of having a non-zero value for the bu
 $div.addEventListener("pointerdown", callback, useCapture);
 ```
 or
+
 ```javascript
 $div.addEventListener(pointer.EVENTS.down, callback, useCapture);
 ```
@@ -67,7 +75,7 @@ Bubbles:	   Yes
 
 Cancelable:  Yes 
 #####Remarks
-For mouse, this is when the device has at least one button depressed. For touch, this is when there is physical contact with the digitizer. For pen, this is when the pen has physical contact with the digitizer. For input devices that do not support hover, thepointerover event is fired immediately before the pointerdown event.
+For mouse, this is when the device has at least one button pressed. For touch, this is when there is physical contact with the digitizer. For pen, this is when the pen has physical contact with the digitizer. For input devices that do not support hover, thepointerover event is fired immediately before the pointerdown event.
 
 --
 ###pointermove
@@ -77,40 +85,51 @@ Dispatched when a pointer changes coordinates, button state, pressure, tilt, or 
 $div.addEventListener("pointermove", callback, useCapture);
 ```
 or
+
 ```javascript
 $div.addEventListener(pointer.EVENTS.move, callback, useCapture);
 ```
+
 #####Event information
 Synchronous: Yes
 
 Bubbles:	   Yes 
 
 Cancelable:  Yes 
+
 #####Remarks
 `pointermove` has two modes:
 
-1. Event broadcasted if pointer was pressed and  pointer changes coordinates (Sat as default).
-2. Event broadcasted when pointer changes coordinates regardless of pointer down state. **It mode works correctly only for devices which support hover**
+1. The event is broadcast if the pointer was pressed, and it changes the coordinates (Set by default).
+2. The event is broadcast when the pointer changes coordinates regardless of the pointerdown state. **This mode works correctly only for devices which support hover**
 
-You should call function `setMoveHoverState` with parameter `true` for switch to second mode
+You should call the `setMoveHoverState` function with a `true` parameter to switch to the second mode.
+
 ```javascript
 pointer.setMoveHoverState(true);
 ```
-Call function `setMoveHoverState` with parameter `false` for return to first mode.
+
+Call the `setMoveHoverState` function with a `false` parameter to return to the first mode.
+
 ```javascript
 pointer.setMoveHoverState(false);
 ```
+
 --
 ###pointerover
 Dispatched when a pointing device is moved into the hit test boundaries of an element. Also dispatched prior to a pointerdown event for devices that do not support hover.
+
 #####Syntax
+
 ```javascript
 $div.addEventListener("pointerover", callback, useCapture);
 ```
 or
+
 ```javascript
 $div.addEventListener(pointer.EVENTS.over, callback, useCapture);
 ```
+
 #####Event information
 Synchronous: Yes
 
@@ -119,15 +138,20 @@ Bubbles:	   Yes
 Cancelable:  Yes 
 
 --
+
 ###pointerenter
-Dispatched when a pointing device is moved into the hit test boundaries of an element or one of its descendants, including as a result of a `pointerdown` event from a device that does not support hover. This event type is similar to `pointerover`, but differs in that it does not bubble and cancelable.
+Dispatched when a pointing device is moved into the hit test boundaries of an element or one of its descendants, including as a result of a `pointerdown` event from a device that does not support hover. This event type is similar to `pointerover`, but differs in that it does not bubble and is cancelable.
+
 ```javascript
 $div.addEventListener("pointerenter", callback, useCapture);
 ```
+
 or
+
 ```javascript
 $div.addEventListener(pointer.EVENTS.enter, callback, useCapture);
 ```
+
 #####Event information
 Synchronous: Yes
 
@@ -136,15 +160,20 @@ Bubbles:	   No
 Cancelable:  No 
 
 --
+
 ###pointerout
 Dispatched when any of the following occurs:
-* A pointing device is moved out of the hit test boundaries of an element
-* After firing the `pointerup` event for a device that does not support hover
-* After firing the `pointercancel` event
+
+* A pointing device is moved out of the hit test boundaries of an element.
+* After firing the `pointerup` event for a device that does not support hover.
+* After firing the `pointercancel` event.
+
+
 ```javascript
 $div.addEventListener("pointerout", callback, useCapture);
 ```
 or
+
 ```javascript
 $div.addEventListener(pointer.EVENTS.out, callback, useCapture);
 ```
@@ -157,11 +186,13 @@ Cancelable:  Yes
 
 --
 ###pointerleave
-Dispatched when a pointing device is moved outside of the hit test boundaries of an element or one of its descendants, including as a result of a `pointerdown` event from a device that does not support hover. This event type is similar to `pointerout`, but differs in that it does not bubble and cancelable.
+Dispatched when a pointing device is moved outside of the hit test boundaries of an element or one of its descendants, including as a result of a `pointerdown` event from a device that does not support hover. This event type is similar to `pointerout`, but differs in that it does not bubble and is cancelable.
+
 ```javascript
 $div.addEventListener("pointerleave", callback, useCapture);
 ```
 or
+
 ```javascript
 $div.addEventListener(pointer.EVENTS.leave, callback, useCapture);
 ```
@@ -174,14 +205,17 @@ Cancelable:  No
 
 --
 ###pointercancel 
-Dispatched when either (1) the system has determined that a pointer is unlikely to continue to produce events (for example, due to a hardware event), or (2) after having fired the pointerdown event, the pointer is subsequently used to manipulate the page viewport (for example, panning or zooming).
+Dispatched when either (1) the system has determined that a pointer is unlikely to continue to produce events (for example, due to a hardware event), or (2) after firing the pointerdown event, the pointer is subsequently used to manipulate the page viewport (for example, panning or zooming).
+
 ```javascript
 $div.addEventListener("pointercancel", callback, useCapture);
 ```
 or
+
 ```javascript
 $div.addEventListener(pointer.EVENTS.cancel, callback, useCapture);
 ```
+
 #####Event information
 Synchronous: Yes
 
