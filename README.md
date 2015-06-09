@@ -5,7 +5,7 @@ The module provides W3C Pointer Events for handling user input. Pointer events a
 >
 You can disable multitouch mode. You should set parametr `enableMultiTouch` as false. In this case Pointer works only with one touch. If a user makes a multitouch gesture - the first point will be processed, while the others will be skipped.
 
-[Example](http://rapid-application-development-js.github.io/Pointer/)
+[Example](http://rapid-application-development-js.github.io/Pointer/example)
 
 ---
 
