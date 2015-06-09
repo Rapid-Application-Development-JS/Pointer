@@ -254,6 +254,7 @@
         }
       } else {
         this.touchID = 1;
+        this._sendEvent (type, e, canBubble, canCelable, touchEvent);
       }
       return true;
     },
