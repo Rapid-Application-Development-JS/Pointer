@@ -1,8 +1,8 @@
 # Pointer
 The module provides W3C Pointer Events for handling user input. Pointer events are modeled after traditional mouse events, except for their use of the abstract concept of a pointer to apply across all user input modalities, including mouse, touch, and stylus pen. Use pointer events to create seamless user experience across user input methods by writing to a single set of events that work across hardware capabilities.
-
+>
 **Note:** Pointer supports multitouch mode. When a user will produce action two or more fingers for each finger module will send an event with a unique `pointerId`. 
-
+>
 You can disable multitouch mode. You should set parametr `enableMultiTouch` as false. In this case Pointer works only with one touch. If a user makes a multitouch gesture - the first point will be processed, while the others will be skipped.
 
 [Example](http://rapid-application-development-js.github.io/Pointer/)
