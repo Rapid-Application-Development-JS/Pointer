@@ -53,5 +53,5 @@
     "build-js": "uglifyjs source/pointer.js --compress --mangle --screw-ie8 --comments --lint --source-map release/pointer.min.js.map --output release/pointer.min.js",
     "test": "echo \"no test required\" && exit 1"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

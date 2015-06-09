@@ -44,10 +44,12 @@
   }
   function PointerTracker(element) {
     var _moveHoverState = false;
-    this.version = "1.0.0";
+    this.version = "1.0.1";
     this._el = element;
     this.isDown = false;
     this.chancelId = false;
+    this.enableMultiTouch = true;
+
     this.setMoveHoverState = function (moveHoverState) {
       _moveHoverState = moveHoverState;
     };
@@ -227,6 +229,64 @@
     _fireEvent: function (type, e, canBubble, canCelable) {
       canBubble = arguments.length < 3 ? true : !!canBubble;
       canCelable = arguments.length < 4 ? true : !!canCelable;
+      if(this.enableMultiTouch){
+        this._fireMultiTouchEvent(type, e, canBubble, canCelable);
+      }else{
+        this._fireSimpleEvent(type, e, canBubble, canCelable);
+      }
+    },
+
+    _fireMultiTouchEvent: function (type, e, canBubble, canCelable) {
+      var touchEvent = e, i, l;
+      if (this.isTouched) {
+        if (window.navigator.msPointerEnabled) {
+          if (!e.isPrimary) {
+            return false;
+          }
+          touchEvent = e;
+          this.touchID = e.pointerId;
+        } else {
+          for (i = 0, l = e.changedTouches.length; i < l; i++) {
+            touchEvent = e.changedTouches[i];
+            this.touchID = touchEvent.identifier;
+            this._sendEvent (type, e, canBubble, canCelable, touchEvent);
+          }
+        }
+      } else {
+        this.touchID = 1;
+      }
+      return true;
+    },
+
+    _sendEvent: function (type, e, canBubble, canCelable, touchEvent){
+      var customEvent = document.createEvent('MouseEvents');
+      customEvent.initMouseEvent(type, canBubble, canCelable, window, 1, touchEvent.screenX, touchEvent.screenY, touchEvent.clientX, touchEvent.clientY, e.ctrlKey, e.altKey, e.shiftKey, e.metaKey, e.button, e.relatedTarget);
+      customEvent.preventDefault = function () {
+        if (e.preventDefault !== undefined)
+          e.preventDefault();
+      };
+      if (customEvent.stopPropagation !== undefined) {
+        var current = customEvent.stopPropagation;
+        customEvent.stopPropagation = function () {
+          if (e.stopPropagation !== undefined)
+            e.stopPropagation();
+          current.call(this);
+        };
+      }
+      customEvent.pointerId = this.touchID;
+      customEvent.pointerType = this.isTouched ? 'touch' : 'mouse';
+      customEvent.isPrimary = true;
+      // direfox dirty hack
+      if (customEvent.__defineGetter__) {
+        customEvent.__defineGetter__('timeStamp', function () {
+          return e.timeStamp;
+        });
+      }
+      e.target.dispatchEvent(customEvent);
+      return true;
+    },
+
+    _fireSimpleEvent: function (type, e, canBubble, canCelable) {
       var touchEvent = e, i, l, customEvent;
       if (this.isTouched) {
         if (window.navigator.msPointerEnabled) {
