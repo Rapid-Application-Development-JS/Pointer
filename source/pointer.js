@@ -44,12 +44,11 @@
   }
   function PointerTracker(element) {
     var _moveHoverState = false;
-    this.version = "1.0.1";
+    this.version = "1.0.2";
     this._el = element;
     this.isDown = false;
     this.chancelId = false;
     this.enableMultiTouch = true;
-
     this.setMoveHoverState = function (moveHoverState) {
       _moveHoverState = moveHoverState;
     };
@@ -72,12 +71,12 @@
         this._el.addEventListener(STRINGS.touchcancel, this, false);
       }
     } else {
-      var self = this,
-        eventHandlerIE = function (e) {
-          self.handleEventIE(e);
+      var that = this,
+        eventHandlerIE = function (event) {
+          that.handleEventIE(event);
         },
-        eventHandler = function (e) {
-          self.handleEvent(e);
+        eventHandler = function (event) {
+          that.handleEvent(event);
         };
       if (window.navigator.pointerEnabled) {
         this._el.addEventListener(STRINGS.pointerDown, eventHandlerIE, true);
@@ -130,22 +129,22 @@
     },
     isPointerHoverEventReceived: false,
     isTouched: 'ontouchstart' in window || window.navigator.msPointerEnabled,
-    handleEventIE: function (e) {
-      if (!e.isPrimary) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        e.preventDefault();
+    handleEventIE: function (event) {
+      if (!event.isPrimary) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        event.preventDefault();
       } else {
-        switch (e.type) {
+        switch (event.type) {
           case STRINGS.pointerDown:
             this.isDown = true;
             break;
           case STRINGS.pointerMove:
             if (!this.getMoveHoverState()) {
               if (!this.isDown) {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                e.preventDefault();
+                event.stopImmediatePropagation();
+                event.stopPropagation();
+                event.preventDefault();
               }
             }
             break;
@@ -156,16 +155,16 @@
         }
       }
     },
-    handleEvent: function (e) {
+    handleEvent: function (event) {
       if (this.chancelId !== null) {
         clearTimeout(this.chancelId);
       }
-      switch (e.type) {
+      switch (event.type) {
         case STRINGS.touchmove:
         case STRINGS.mousemove:
         case STRINGS.pointerMove:
           if (this.getMoveHoverState() || this.isDown) {
-            this._fireEvent(this.EVENTS.move, e);
+            this._fireEvent(this.EVENTS.move, event);
           }
           break;
         case STRINGS.touchstart:
@@ -174,137 +173,139 @@
           this.isDown = true;
           this.chancelId = false;
           if (!this.isPointerHoverEventReceived) {
-            this._fireEvent(this.EVENTS.over, e);
-            this._fireEvent(this.EVENTS.enter, e);
+            this._fireEvent(this.EVENTS.over, event);
+            this._fireEvent(this.EVENTS.enter, event);
           }
-          this._fireEvent(this.EVENTS.down, e);
+          this._fireEvent(this.EVENTS.down, event);
           break;
         case STRINGS.touchend:
         case STRINGS.pointerUp:
         case STRINGS.touchcancel:
         case STRINGS.mouseup:
           if (this.isDown) {
-            this.isDown = !this._fireEvent(this.EVENTS.up, e);
+            this.isDown = false;
+            this._fireEvent(this.EVENTS.up, event);
             if (!this.isPointerHoverEventReceived) {
-              this._fireEvent(this.EVENTS.out, e);
-              this._fireEvent(this.EVENTS.leave, e, false, false);
+              this._fireEvent(this.EVENTS.out, event);
+              this._fireEvent(this.EVENTS.leave, event, false, false);
             }
           }
           break;
         case STRINGS.mouseover:
           this.isPointerHoverEventReceived = true;
-          this._fireEvent(this.EVENTS.over, e);
+          this._fireEvent(this.EVENTS.over, event);
           break;
         case STRINGS.pointerEnter:
         case STRINGS.mouseenter:
           this.isPointerHoverEventReceived = true;
-          this._fireEvent(this.EVENTS.enter, e, false, false);
+          this._fireEvent(this.EVENTS.enter, event, false, false);
           break;
         case STRINGS.pointerLeave:
         case STRINGS.mouseleave:
           this.isPointerHoverEventReceived = true;
-          this._fireEvent(this.EVENTS.leave, e, false, false);
+          this._fireEvent(this.EVENTS.leave, event, false, false);
           break;
         case STRINGS.pointerOut:
         case STRINGS.mouseout:
           this.isPointerHoverEventReceived = true;
           var pointerTracker = this;
-          this._fireEvent(this.EVENTS.out, e);
+          this._fireEvent(this.EVENTS.out, event);
           if (this.isDown) {
             this.chancelId = setTimeout(function () {
               pointerTracker.isDown = false;
-              pointerTracker._fireEvent(pointerTracker.EVENTS.cancel, e, true, false);
+              pointerTracker._fireEvent(pointerTracker.EVENTS.cancel, event, true, false);
               pointerTracker.chancelId = null;
             }, 10);
           }
           break;
         case STRINGS.pointerCancel:
           pointerTracker.isDown = false;
-          pointerTracker._fireEvent(pointerTracker.EVENTS.cancel, e, true, false);
-          this._fireEvent(this.EVENTS.out, e);
-          this._fireEvent(this.EVENTS.leave, e, false, false);
+          pointerTracker._fireEvent(pointerTracker.EVENTS.cancel, event, true, false);
+          this._fireEvent(this.EVENTS.out, event);
+          this._fireEvent(this.EVENTS.leave, event, false, false);
           break;
       }
     },
-    _fireEvent: function (type, e, canBubble, canCelable) {
+    _fireEvent: function (type, event, canBubble, cancellable) {
       canBubble = arguments.length < 3 ? true : !!canBubble;
-      canCelable = arguments.length < 4 ? true : !!canCelable;
-      if(this.enableMultiTouch){
-        this._fireMultiTouchEvent(type, e, canBubble, canCelable);
-      }else{
-        this._fireSimpleEvent(type, e, canBubble, canCelable);
+      cancellable = arguments.length < 4 ? true : !!cancellable;
+      if (this.enableMultiTouch) {
+        this._fireMultiTouchEvent(type, event, canBubble, cancellable);
+      } else {
+        this._fireSimpleEvent(type, event, canBubble, cancellable);
       }
     },
-
-    _fireMultiTouchEvent: function (type, e, canBubble, canCelable) {
-      var touchEvent = e, i, l;
+    _fireMultiTouchEvent: function (type, event, canBubble, cancellable) {
+      var touchEvent = event, index, length;
       if (this.isTouched) {
         if (window.navigator.msPointerEnabled) {
-          if (!e.isPrimary) {
+          if (!event.isPrimary) {
             return false;
           }
-          touchEvent = e;
-          this.touchID = e.pointerId;
+          //touchEvent = event;
+          this.touchID = event.pointerId;
         } else {
-          for (i = 0, l = e.changedTouches.length; i < l; i++) {
-            touchEvent = e.changedTouches[i];
+          for (index = 0, length = event.changedTouches.length; index < length; index++) {
+            touchEvent = event.changedTouches[index];
             this.touchID = touchEvent.identifier;
-            this._sendEvent (type, e, canBubble, canCelable, touchEvent);
+            this._sendEvent(type, event, canBubble, cancellable, touchEvent);
           }
         }
       } else {
         this.touchID = 1;
-        this._sendEvent (type, e, canBubble, canCelable, touchEvent);
+        this._sendEvent(type, event, canBubble, cancellable, touchEvent);
       }
       return true;
     },
-
-    _sendEvent: function (type, e, canBubble, canCelable, touchEvent){
+    _sendEvent: function (type, event, canBubble, cancellable, touchEvent) {
       var customEvent = document.createEvent('MouseEvents');
-      customEvent.initMouseEvent(type, canBubble, canCelable, window, 1, touchEvent.screenX, touchEvent.screenY, touchEvent.clientX, touchEvent.clientY, e.ctrlKey, e.altKey, e.shiftKey, e.metaKey, e.button, e.relatedTarget);
+      customEvent.initMouseEvent(type, canBubble, cancellable, window, 1,
+        touchEvent.screenX, touchEvent.screenY, touchEvent.clientX, touchEvent.clientY,
+        event.ctrlKey, event.altKey, event.shiftKey, event.metaKey, event.button, event.relatedTarget);
       customEvent.preventDefault = function () {
-        if (e.preventDefault !== undefined)
-          e.preventDefault();
+        if (event.preventDefault !== undefined) {
+          event.preventDefault();
+        }
       };
       if (customEvent.stopPropagation !== undefined) {
         var current = customEvent.stopPropagation;
         customEvent.stopPropagation = function () {
-          if (e.stopPropagation !== undefined)
-            e.stopPropagation();
+          if (event.stopPropagation !== undefined) {
+            event.stopPropagation();
+          }
           current.call(this);
         };
       }
       customEvent.pointerId = this.touchID;
       customEvent.pointerType = this.isTouched ? 'touch' : 'mouse';
       customEvent.isPrimary = true;
-      // direfox dirty hack
+      // firefox dirty hack
       if (customEvent.__defineGetter__) {
         customEvent.__defineGetter__('timeStamp', function () {
-          return e.timeStamp;
+          return event.timeStamp;
         });
       }
-      e.target.dispatchEvent(customEvent);
+      event.target.dispatchEvent(customEvent);
       return true;
     },
-
-    _fireSimpleEvent: function (type, e, canBubble, canCelable) {
-      var touchEvent = e, i, l, customEvent;
+    _fireSimpleEvent: function (type, event, canBubble, cancellable) {
+      var touchEvent = event, index, length, customEvent;
       if (this.isTouched) {
         if (window.navigator.msPointerEnabled) {
-          if (!e.isPrimary) {
+          if (!event.isPrimary) {
             return false;
           }
-          touchEvent = e;
-          this.touchID = e.pointerId;
-        } else if (e.type === STRINGS.touchstart) {
-          if (e.touches.length > 1) {
+          touchEvent = event;
+          this.touchID = event.pointerId;
+        } else if (event.type === STRINGS.touchstart) {
+          if (event.touches.length > 1) {
             return false;
           }
-          touchEvent = e.touches[0];
-          this.touchID = e.touches[0].identifier;
+          touchEvent = event.touches[0];
+          this.touchID = event.touches[0].identifier;
         } else {
-          for (i = 0, l = e.changedTouches.length; i < l; i++) {
-            touchEvent = e.changedTouches[i];
+          for (index = 0, length = event.changedTouches.length; index < length; index++) {
+            touchEvent = event.changedTouches[index];
             if (touchEvent.identifier === this.touchID) {
               break;
             }
@@ -314,37 +315,38 @@
           }
         }
       } else {
-        this.touchID = 1;
+        this.touchID = 1; // mouse
       }
       customEvent = document.createEvent('MouseEvents');
-      customEvent.initMouseEvent(type, canBubble, canCelable, window, 1, touchEvent.screenX, touchEvent.screenY, touchEvent.clientX, touchEvent.clientY, e.ctrlKey, e.altKey, e.shiftKey, e.metaKey, e.button, e.relatedTarget);
+      customEvent.initMouseEvent(type, canBubble, cancellable, window, 1,
+        touchEvent.screenX, touchEvent.screenY, touchEvent.clientX, touchEvent.clientY,
+        event.ctrlKey, event.altKey, event.shiftKey, event.metaKey, event.button, event.relatedTarget);
       customEvent.preventDefault = function () {
-        if (e.preventDefault !== undefined)
-          e.preventDefault();
+        if (event.preventDefault !== undefined) {
+          event.preventDefault();
+        }
       };
       if (customEvent.stopPropagation !== undefined) {
         var current = customEvent.stopPropagation;
         customEvent.stopPropagation = function () {
-          if (e.stopPropagation !== undefined)
-            e.stopPropagation();
+          if (event.stopPropagation !== undefined) {
+            event.stopPropagation();
+          }
           current.call(this);
         };
       }
       customEvent.pointerId = this.touchID;
       customEvent.pointerType = this.isTouched ? 'touch' : 'mouse';
       customEvent.isPrimary = true;
-      // direfox dirty hack
+      // firefox dirty hack
       if (customEvent.__defineGetter__) {
         customEvent.__defineGetter__('timeStamp', function () {
-          return e.timeStamp;
+          return event.timeStamp;
         });
       }
-      e.target.dispatchEvent(customEvent);
+      event.target.dispatchEvent(customEvent);
       return true;
     }
   };
-  if (typeof exports !== 'undefined') {
-    exports.module = PointerTracker;
-  }
   return PointerTracker;
 }));
