@@ -204,6 +204,7 @@
         case STRINGS.mouseleave:
           this.isPointerHoverEventReceived = true;
           this._fireEvent(this.EVENTS.leave, event, false, false);
+          this.isDown = false; // @todo reset function shuld take place
           break;
         case STRINGS.pointerOut:
         case STRINGS.mouseout:
